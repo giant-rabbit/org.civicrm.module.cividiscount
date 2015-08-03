@@ -96,14 +96,14 @@ SELECT    t.item_id as item_id,
       t.contribution_id as contribution_id,
       t.entity_table as entity_table,
       t.entity_id as entity_id,
-      t.description as description ";
+      t.description as description,
+      i.code as code ";
 
-    $from = " FROM cividiscount_track AS t ";
+    $from = " FROM cividiscount_track AS t LEFT JOIN cividiscount_item AS i ON (i.id = t.item_id) ";
 
     if ($orgid) {
       $sql .= ", i.code ";
-      $where = " LEFT JOIN cividiscount_item AS i ON (i.id = t.item_id) ";
-      $where .= " WHERE i.organization_id = " . CRM_Utils_Type::escape($orgid, 'Integer');
+      $where = " WHERE i.organization_id = " . CRM_Utils_Type::escape($orgid, 'Integer');
     }
     else if ($cid) {
       $where = " WHERE t.contact_id = " . CRM_Utils_Type::escape($cid, 'Integer');
